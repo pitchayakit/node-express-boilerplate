@@ -20,7 +20,6 @@ This command will start all the services defined in your docker-compose.yml file
 Before running the server, make sure you have Node.js and npm installed on your machine. After cloning the repository, navigate to the project directory and install the necessary packages using npm:
 
 ``` bash
-# start the server
 npm install
 
 ```
@@ -28,7 +27,6 @@ npm install
 Once the packages are installed, you can start the server by running:
 
 ``` bash
-# start the server
 npm run serve
 
 ```

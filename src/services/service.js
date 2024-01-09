@@ -1,76 +1,77 @@
+import httpError from '../utils/httpError.js'
 class Service {
-  constructor(repository) {
-    this.repository = repository
-  }
-
-  async create(body) {
-    const data = await this.repository.create(body)
-
-    if (!data) {
-      throw new Error('Not created')
+    constructor(repository) {
+        this.repository = repository
     }
 
-    return data
-  }
+    async create(body) {
+        const data = await this.repository.create(body)
 
-  async findAll(options = {}) {
-    const data = await this.repository.findAll(options)
+        if (!data) {
+            throw httpError(500)
+        }
 
-    if (!data) {
-      throw new Error('Internal server error')
+        return data
     }
 
-    return data
-  }
+    async findAll(options = {}) {
+        const data = await this.repository.findAll(options)
 
-  async findOne(options) {
-    const data = await this.repository.findOne(options)
+        if (!data) {
+            throw httpError(500)
+        }
 
-    if (!data) {
-      throw new Error('Not found')
+        return data
     }
 
-    return data
-  }
+    async findOne(options) {
+        const data = await this.repository.findOne(options)
 
-  async findByPk(id) {
-    const data = await this.repository.findByPk(id)
+        if (!data) {
+            throw httpError(404)
+        }
 
-    if (!data) {
-      throw new Error('Not found')
+        return data
     }
 
-    return data
-  }
+    async findByPk(id) {
+        const data = await this.repository.findByPk(id)
 
-  async update(id, body) {
-    const data = await this.repository.findByPk(id)
+        if (!data) {
+            throw httpError(404)
+        }
 
-    if (!data) {
-      throw new Error('Not found')
+        return data
     }
 
-    const payload = {
-      ...data.dataValues,
-      ...body
+    async update(id, body) {
+        const data = await this.repository.findByPk(id)
+
+        if (!data) {
+            throw httpError(404)
+        }
+
+        const payload = {
+            ...data.dataValues,
+            ...body
+        }
+
+        await this.repository.update(id, payload)
+
+        return payload
     }
 
-    await this.repository.update(id, payload)
+    async delete(id) {
+        const data = await this.repository.findByPk(id)
 
-    return payload
-  }
+        if (!data) {
+            throw httpError(404)
+        }
 
-  async delete(id) {
-    const data = await this.repository.findByPk(id)
+        await this.repository.remove(id)
 
-    if (!data) {
-      throw new Error('Not found')
+        return null
     }
-
-    await this.repository.remove(id)
-
-    return null
-  }
 }
 
 export default Service

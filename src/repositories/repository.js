@@ -1,6 +1,6 @@
 class Repository {
-  constructor () {
-    this.model
+  constructor (model) {
+    this.model = model
   }
 
   async findAll (options = {}) {

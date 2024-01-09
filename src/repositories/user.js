@@ -4,8 +4,7 @@ const { User } = models;
 
 class UserRepository extends Repository {
     constructor() {
-        super()
-        this.model = User
+        super(User)
     }
 }
 

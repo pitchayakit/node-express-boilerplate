@@ -1,5 +1,6 @@
 # Node Express Boilerplate
-A boilerplate for node.js + express.js with controller service and repository pattle.
+A boilerplate for node.js + express.js with Controller Service and Repository pattle.
+This bolierplate is using [Sequelize](https://sequelize.org/) for Object-relational mapping.
 
 ## Table of Contents
 1. [Container](#container)
@@ -32,14 +33,14 @@ npm run serve
 
 ```
 
-### Migration
+### Database Migration
 Database migration is the process of transforming data from one format to another. In this project, we use Sequelize CLI for database migration. To migrate the database, use the following command:
 
 ```bash
 npx sequelize-cli db:migrate
 ```
 
-### Seeder
+### Database Seeding
 Database seeding is the initial seeding of a database with data. This data can be dummy data used for testing or initial data required for the application to run. To seed the database, use the following command:
 ```bash
 npx sequelize-cli db:seed:all

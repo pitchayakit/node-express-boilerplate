@@ -5,7 +5,7 @@ import UserValidator from '../validators/user.validator.js'
 
 const userService = new UserService()
 
-const findAll = async (req, res) => {
+export const findAll = async (req, res) => {
     //Validation process.
     const userValidator = new UserValidator()
     const schema = userValidator.getBaseSchema()
@@ -19,7 +19,4 @@ const findAll = async (req, res) => {
     return res.status(OK).json(users)
 }
 
-export default {
-    findAll
-}
 

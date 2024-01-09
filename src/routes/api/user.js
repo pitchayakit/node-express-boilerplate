@@ -1,9 +1,9 @@
 import express from "express";
-import UserController from '../../controllers/user.controller.js';
+import { findAll } from '../../controllers/user.controller.js';
 import asyncHandler from '../../utils/asyncHandler.js';
 const router = express.Router();
 
-router.get('/', UserController.findAll);
+router.get('/', findAll);
 
 // Apply async handler to all routes
 function applyAsyncHandler(router) {

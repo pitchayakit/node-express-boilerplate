@@ -4,7 +4,7 @@ export default function asyncHandler(fn) {
         return Promise
             .resolve(fn(req, res, next))
             .catch(err => {
-                res.status(err.status).json({ 
+                res.status(err.status || 500).json({ 
                     data: {
                         message: err.message,
                         errors: err.errors

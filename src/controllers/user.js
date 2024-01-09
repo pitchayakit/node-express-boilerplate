@@ -5,7 +5,7 @@ import UserService from '../services/user.js'
 const userService = new UserService()
 
 const findAll = async (req, res) => {
-    const users = await userService.findAll()
+    const users = await userService.findAllWithPagination()
 
     return res.status(OK).json(users)
 }

@@ -19,3 +19,13 @@ We already inject all dependencies in 'index.js', So you can start the server im
 npm run serve
 
 ```
+
+### Migration
+```bash
+npx sequelize-cli db:migrate
+```
+
+### Seeder
+```bash
+npx sequelize-cli db:seed:all
+```

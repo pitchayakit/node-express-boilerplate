@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+    # app:
+    #     # service name
+    #     build: . # build from Dockerfile
+    #     volumes:
+    #       - "./:/usr/src/app"
+    #       - /usr/src/app/node_modules # Remove this if you have pure JS dependencies
+    #     ports:
+    #         - 8010:8010
+    db:
+        container_name: db-server
+        image: mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: admin
+            MYSQL_DATABASE: boilerplate
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: password
+        ports:
+        - 3306:3306
+
+    phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        ports:
+        - 8000:80
+        environment:
+        - PMA_HOST=db
+        depends_on:
+        - db
+
+    redis:
+        container_name: redis-server
+        image: redis
+        ports:
+            - 6379:6379
+        stdin_open: true

@@ -25,7 +25,7 @@ class Validation {
             }
         })
         
-        return Joi.object(schema); // Disallow fields that are not in the schema;
+        return Joi.object(schema);
     }
 
     validate(schema, data) {

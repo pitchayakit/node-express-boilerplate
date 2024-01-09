@@ -1,4 +1,4 @@
-export default function (status = 500, message = undefined, error = undefined) {
+export default function (status = 500, message = undefined, errors = undefined) {
 
     if (!message) {
         switch (status) {
@@ -10,12 +10,11 @@ export default function (status = 500, message = undefined, error = undefined) {
         }
     }
     
-    const err = {
-        status,
-        code: status,
-        message,
-        errors: error
-    }
+    // Create new error with error stack trace
+    let err = new Error(message)
+    err.status = status
+    err.code = status
+    err.errors = errors
 
     return err
 }

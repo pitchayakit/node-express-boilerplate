@@ -1,4 +1,4 @@
-import { INTERNAL_SERVER_ERROR, NOT_FOUND } from "../enum/httpCode";
+import { INTERNAL_SERVER_ERROR, NOT_FOUND } from "../enum/httpCode.js";
 
 export default function (status = INTERNAL_SERVER_ERROR, message = undefined, errors = undefined) {
 

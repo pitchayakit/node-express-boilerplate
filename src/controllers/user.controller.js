@@ -8,7 +8,7 @@ const userValidator = new UserValidator()
 
 export const index = async (req, res) => {
     //Validation process.
-    const schema = userValidator.getBaseSchema()
+    const schema = userValidator.getBaseSchemaWithPaginationQuery()
     const validatedData = userValidator.validate(schema, req.query)
 
     //Query data process.

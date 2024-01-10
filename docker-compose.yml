@@ -31,9 +31,9 @@ services:
         depends_on:
         - db
 
-    redis:
-        container_name: redis-server
-        image: redis
-        ports:
-            - 6379:6379
-        stdin_open: true
+    # redis:
+    #     container_name: redis-server
+    #     image: redis
+    #     ports:
+    #         - 6379:6379
+    #     stdin_open: true

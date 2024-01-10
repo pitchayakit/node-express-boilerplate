@@ -1,6 +1,7 @@
 import Joi from "joi";
 import _ from "underscore";
 import httpError from "../utils/httpError.js";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../enum/httpCode.js";
 
 class Validation {
     constructor(model) {
@@ -21,11 +22,25 @@ class Validation {
                     return Joi.boolean();
                 // Add more cases as needed
                 default:
-                    throw new Error(`Unsupported type for ${key}`);
+                    throw httpError(INTERNAL_SERVER_ERROR, `Unsupported type for ${key}`)
             }
         })
         
         return Joi.object(schema);
+    }
+
+    create() {
+        const schema = this.getBaseSchema();
+        
+        // Add any additional validation rules for the create operation here.
+        return schema.required(['first_name', 'last_name', 'email']);
+    }
+
+    patch() {
+        const schema = this.getBaseSchema();
+        
+        // Exclude the primary key from the schema
+        return schema.fork(['id'], (schema) => schema.strip());
     }
 
     validate(schema, data) {

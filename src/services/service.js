@@ -89,14 +89,14 @@ class Service {
         }
     }
 
-    async delete(id) {
+    async destroy(id) {
         const data = await this.repository.findByPk(id)
 
         if (!data) {
-            throw httpError(BAD_REQUEST)
+            throw httpError(NOT_FOUND)
         }
 
-        await this.repository.delete(id)
+        await this.repository.destroy(id)
 
         return {
             data: `${id} is deleted successfully.`

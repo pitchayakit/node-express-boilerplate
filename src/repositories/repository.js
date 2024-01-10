@@ -123,7 +123,7 @@ class Repository {
     }
 
 
-    async delete(id, option = {}) {
+    async destroy(id, option = {}) {
         const transaction = option.transaction || null;
 
         const resource = await this.model.findByPk(id)

@@ -8,7 +8,9 @@ const User = (sequelize, DataTypes) => {
         },
         last_name: {
             type: DataTypes.STRING
-            // allowNull defaults to true
+        },
+        email: {
+            type: DataTypes.STRING
         }
     },{
         // This is the option that allows you to specify the table name

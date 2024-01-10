@@ -1,8 +1,10 @@
-export default function (status = 500, message = undefined, errors = undefined) {
+import { INTERNAL_SERVER_ERROR, NOT_FOUND } from "../enum/httpCode";
+
+export default function (status = INTERNAL_SERVER_ERROR, message = undefined, errors = undefined) {
 
     if (!message) {
         switch (status) {
-            case 404:
+            case NOT_FOUND:
                 message = `Resource not found. Status code: ${status}`;
                 break;
             default:

@@ -1,4 +1,5 @@
 import httpError from '../utils/httpError.js'
+import { INTERNAL_SERVER_ERROR, NOT_FOUND, BAD_REQUEST } from '../enum/httpCode.js'
 class Service {
     constructor(repository) {
         this.repository = repository
@@ -8,7 +9,7 @@ class Service {
         const data = await this.repository.create(body, option)
 
         if (!data) {
-            throw httpError(500)
+            throw httpError(INTERNAL_SERVER_ERROR)
         }
 
         return {
@@ -20,7 +21,7 @@ class Service {
         const data = await this.repository.findAll(option)
 
         if (!data) {
-            throw httpError(500)
+            throw httpError(INTERNAL_SERVER_ERROR)
         }
 
         return {
@@ -32,7 +33,7 @@ class Service {
         const data = await this.repository.findAllWithPagination(option)
 
         if (!data) {
-            throw httpError(500)
+            throw httpError(INTERNAL_SERVER_ERROR)
         }
 
         return data
@@ -42,7 +43,7 @@ class Service {
         const data = await this.repository.findOne(option)
 
         if (!data) {
-            throw httpError(404)
+            throw httpError(NOT_FOUND)
         }
 
         return {
@@ -54,7 +55,7 @@ class Service {
         const data = await this.repository.findByPk(id)
 
         if (!data) {
-            throw httpError(404)
+            throw httpError(NOT_FOUND)
         }
 
         return {
@@ -67,7 +68,7 @@ class Service {
         const resource = await this.repository.update(id, body, option)
 
         if (!resource) {
-            throw httpError(404)
+            throw httpError(NOT_FOUND)
         }
 
         return {
@@ -80,7 +81,7 @@ class Service {
         const resource = await this.repository.bulkUpdate(body, option)
 
         if (!resource) {
-            throw httpError(404)
+            throw httpError(NOT_FOUND)
         }
 
         return {
@@ -92,7 +93,7 @@ class Service {
         const data = await this.repository.findByPk(id)
 
         if (!data) {
-            throw httpError(404)
+            throw httpError(BAD_REQUEST)
         }
 
         await this.repository.delete(id)
@@ -109,7 +110,7 @@ class Service {
         const maxRow = 100000
 
         if (total >= maxRow) {
-            throw httpError(400, `Your export data is excess. The data can't more then ${maxRow}.`)
+            throw httpError(BAD_REQUEST, `Your export data is excess. The data can't more then ${maxRow}.`)
         }
 
         let filter = option.filter || {}

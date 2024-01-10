@@ -4,10 +4,10 @@ import UserService from '../services/user.service.js'
 import UserValidator from '../validators/user.validator.js'
 
 const userService = new UserService()
+const userValidator = new UserValidator()
 
 export const findAll = async (req, res) => {
     //Validation process.
-    const userValidator = new UserValidator()
     const schema = userValidator.getBaseSchema()
     const validatedData = userValidator.validate(schema, req.query)
 

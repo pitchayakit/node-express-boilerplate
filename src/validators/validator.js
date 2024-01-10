@@ -47,7 +47,7 @@ class Validation {
         const { error, value } = schema.validate(data);
 
         if(error) {
-            throw httpError(400, 'Validation error', _.pluck(error.details, "message"))
+            throw httpError(BAD_REQUEST, 'Validation error', _.pluck(error.details, "message"))
         }
 
         return value

@@ -7,6 +7,7 @@ This bolierplate is using [Sequelize](https://sequelize.org/) for Object-relatio
 2. [Run Server](#run-server)
 3. [Database Migration](#database-migration)
 4. [Database Seeding](#database-seeding)
+5. [Download Example](#download-example)
 
 ### Container 
 To get started with the available container, run the following command:
@@ -40,8 +41,14 @@ npx sequelize-cli db:migrate
 
 ### Database Seeding
 Database seeding is the initial seeding of a database with data. This data can be dummy data used for testing or initial data required for the application to run. To seed the database, use the following command:
+
 ```bash
 npx sequelize-cli db:seed:all
 ```
+
+After seeding you will get ramdom users with email and password is "test" which can use to be credentials to login.
+
+### Download Example
+[Postman](https://github.com/pitchayakit/node-express-boilerplate/tree/master/postman)
 
 Please replace the placeholders with the actual content relevant to your project.

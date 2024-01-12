@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import UserRepository from '../repositories/user.repository.js';
 import { jwtKey } from '../config/auth.js';
+import _ from 'underscore';
 
 const userRepository = new UserRepository();
 
@@ -20,7 +21,7 @@ passport.use(new JwtStrategy(opts, async (jwtPayload, done) => {
         });
         
         if (user) {
-            done(null, user);
+            done(null, _.pick(user, ['id', 'email']));
         } else {
             done(null, false);
             // or you could create a new account

@@ -6,7 +6,8 @@ services:
     #     build: . # build from Dockerfile
     #     volumes:
     #       - "./:/usr/src/app"
-    #       - /usr/src/app/node_modules # Remove this if you have pure JS dependencies
+    #       #- /usr/src/app/node_modules # Remove this if you have pure JS dependencies
+    #     command: sh -c "npx sequelize-cli db:migrate; npx sequelize-cli db:seed:all"
     #     ports:
     #         - 8010:8010
     db:

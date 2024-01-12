@@ -45,7 +45,12 @@ class Validation {
         const schema = this.getBaseSchema();
         
         // Add any additional validation rules for the create operation here.
-        return schema.required(['first_name', 'last_name', 'email']);
+        return schema.keys({ 
+            first_name: schema.extract('first_name').required() ,
+            last_name: schema.extract('last_name').required() ,
+            email: schema.extract('email').required() ,
+            password: schema.extract('password').required() 
+        });
     }
 
     patch() {

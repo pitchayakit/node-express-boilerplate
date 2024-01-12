@@ -1,3 +1,5 @@
+
+import bcrypt from 'bcrypt';
 // user.js
 const User = (sequelize, DataTypes) => {
     const User = sequelize.define('user', {
@@ -9,6 +11,9 @@ const User = (sequelize, DataTypes) => {
         last_name: {
             type: DataTypes.STRING
         },
+        password: {
+            type: DataTypes.STRING
+        },
         email: {
             type: DataTypes.STRING
         }
@@ -16,6 +21,14 @@ const User = (sequelize, DataTypes) => {
         // This is the option that allows you to specify the table name
         tableName: 'users',
         underscored: true,
+        hooks: {
+            beforeCreate: async (user) => {
+                if (user.password) {
+                    const salt = bcrypt.genSaltSync(10);
+                    user.password = await bcrypt.hash(user.password, salt);
+                }
+            }
+        }
     });
 
     User.associate = models => {

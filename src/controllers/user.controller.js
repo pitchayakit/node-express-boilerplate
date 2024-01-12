@@ -67,4 +67,11 @@ export const destroy = async (req, res) => {
     return res.status(OK).json(result)
 }
 
+export const login = async (req, res) => {
+    //Query data process.
+    const result = await userService.login(req.body)
+
+    return res.status(OK).json(result)
+}
+
 

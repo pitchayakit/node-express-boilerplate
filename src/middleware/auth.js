@@ -15,7 +15,7 @@ passport.use(new JwtStrategy(opts, async (jwtPayload, done) => {
 
     try {
         const user = await userRepository.findOne({
-            filter: {
+            query: {
                 email: email,
             }
         });

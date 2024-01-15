@@ -1,35 +1,36 @@
 import _ from "underscore"
-import formatPaginationQuery from "../utils/formatPaginationQuery.js"
+import formatQuery from "../utils/formatQuery.js"
 class Repository {
     constructor(model) {
         this.model = model
     }
 
-    getFilter(filter = {}) {
+    getFilter(query = {}) {
         const allKeys = _.allKeys(this.model.rawAttributes)
-        
-        return _.pick(filter, allKeys)
+
+        return _.pick(query, allKeys)
     };
 
     async findAll(option = {}) {
-        const filter = option.filter || {}
+        const query = option.query || {}
 
         const resources = await this.model.findAll({
-            where: this.getFilter(filter)
+            where: this.getFilter(query)
         })
 
         return JSON.parse(JSON.stringify(resources))
     }
 
     async findAllWithPagination(option = {}) {
-        const filter = option.filter || {}
+        const query = option.query || {}
 
-        const { limit, sortBy, offset, page } = formatPaginationQuery(filter);
+        const { limit, offset, page } = formatQuery.pagination(query);
+        const { order, orderBy } = formatQuery.order(query);
 
         const { count, rows } = await this.model.findAndCountAll({
-            where: this.getFilter(filter),
+            where: this.getFilter(query),
             order: [
-                ["id", sortBy]
+                [orderBy, order]
             ],
             offset: offset,
             limit: limit
@@ -45,10 +46,10 @@ class Repository {
     }
 
     async findOne(option = {}) {
-        const filter = option.filter || {}
+        const query = option.query || {}
 
         const resource = await this.model.findOne({
-            where: this.getFilter(filter)
+            where: this.getFilter(query)
         })
 
         return JSON.parse(JSON.stringify(resource))
@@ -94,7 +95,7 @@ class Repository {
         if (!resource) {
             return false
         }
-        
+
         body = _.omit(body, ["id"]);
 
         //Set date here in order to get the previous data value.
@@ -107,14 +108,14 @@ class Repository {
 
     async bulkUpdate(data, option = {}) {
         const transaction = option.transaction || null,
-            filter = option.filter || {}
+        const query = option.query || {}
 
         data = _.omit(data, ["id"]);
 
         const [count] = await this.model.update(
             data,
             {
-                where: this.getFilter(filter),
+                where: this.getFilter(query),
                 transaction: transaction
             }
         )

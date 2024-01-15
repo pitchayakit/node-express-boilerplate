@@ -113,11 +113,11 @@ class Service {
             throw httpError(BAD_REQUEST, `Your export data is excess. The data can't more then ${maxRow}.`)
         }
 
-        let filter = option.filter || {}
+        let query = option.query || {}
 
         //Export process
         const chunkSize = 10000
-        filter.limit = chunkSize
+        query.limit = chunkSize
         const pages = Math.ceil(total / chunkSize)
 
         const now = Date.now();
@@ -134,9 +134,9 @@ class Service {
         for (let i = 0; i < pages; i++) {
             const ws = fs.createWriteStream(path, { flags: 'a' });
 
-            filter.page = i + 1
+            query.page = i + 1
             let rows = await this.repository.findAllWithPagination({
-                filter: filter
+                query: query
             })
 
             await new Promise(resolve => {

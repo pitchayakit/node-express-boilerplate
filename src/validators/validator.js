@@ -8,7 +8,7 @@ class Validation {
         this.model = model
     }
 
-    getBaseSchema() {
+    base() {
         const schema = _.mapObject(this.model.rawAttributes, (val, rawKey) => {
             const key = val.type.key
             switch (key) {
@@ -29,20 +29,30 @@ class Validation {
         return Joi.object(schema);
     }
 
-    getBaseSchemaWithPaginationQuery() {
-        const schema = this.getBaseSchema();
+    baseSchemaWithPaginationAndOrder() {
+        const baseSchema = this.base();
+        const paginationSchema = this.pagination();
+        const orderSchema  = this.order();
         
-        // Add any additional validation rules for the findAllWithPagination operation here.
-        return schema.keys({
-            limit: Joi.number().integer().min(1).max(100).default(10),
+        return baseSchema.concat(paginationSchema).concat(orderSchema);
+    }
+
+    pagination() {
+        return Joi.object({
+            limit: Joi.number().integer().min(1).default(10),
             page: Joi.number().integer().min(1).default(1),
-            order_by: Joi.string(),
-            sort: Joi.string().valid('ASC', 'DESC').default('ASC')
+        })
+    }
+
+    order() {
+        return Joi.object({
+            order_by: Joi.string().default('id'),
+            order: Joi.string().valid('ASC', 'DESC').default('ASC')
         })
     }
 
     create() {
-        const schema = this.getBaseSchema();
+        const schema = this.base();
         
         // Add any additional validation rules for the create operation here.
         return schema.keys({ 
@@ -54,13 +64,19 @@ class Validation {
     }
 
     patch() {
-        const schema = this.getBaseSchema();
+        const schema = this.base();
         
         // Exclude the primary key from the schema
         return schema.fork(['id'], (schema) => schema.strip());
     }
 
     validate(schema, data) {
+
+        if (Array.isArray(schema)) {
+            // Merge all objects in the array into one object
+            schema = schema.reduce((combined, currentSchema) => combined.concat(currentSchema), Joi.object());
+        }
+       
         const { error, value } = schema.validate(data);
 
         if(error) {

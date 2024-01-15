@@ -17,7 +17,7 @@ class UserService extends Service {
         const { email, password } = data;
 
         const user = await this.repository.findOne({
-            filter: {
+            query: {
                 email: email,
             }
         });

@@ -7,13 +7,21 @@ const userService = new UserService()
 const userValidator = new UserValidator()
 
 export const index = async (req, res) => {
-    //Validation process.
-    const schema = userValidator.getBaseSchemaWithPaginationQuery()
-    const validatedData = userValidator.validate(schema, req.query)
+    // Example of using baseSchemaWithPaginationAndOrder
+    // const schema = userValidator.baseSchemaWithPaginationAndOrder()
+    // const validatedData = userValidator.validate(schema, req.query)
+
+    //Get schema validation.
+    const baseSchema = userValidator.base()
+    const paginationSchema = userValidator.pagination()
+    const sortSchema = userValidator.order()
+
+    //Validation process
+    const validatedData = userValidator.validate([baseSchema, paginationSchema, sortSchema], req.query)
 
     //Query data process.
     const users = await userService.findAllWithPagination({
-        filter : validatedData
+        query : validatedData
     })
 
     return res.status(OK).json(users)
@@ -21,7 +29,7 @@ export const index = async (req, res) => {
 
 export const show = async (req, res) => {
     //Validation process.
-    const schema = userValidator.getBaseSchema()
+    const schema = userValidator.base()
     const { id } = userValidator.validate(schema, req.params)
 
     //Query data process.
@@ -43,7 +51,7 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
     //Validation params process.
-    const paramSchema = userValidator.getBaseSchema()
+    const paramSchema = userValidator.base()
     const { id } = userValidator.validate(paramSchema, req.params)
 
     //Validation body process.
@@ -58,7 +66,7 @@ export const update = async (req, res) => {
 
 export const destroy = async (req, res) => {
     //Validation params process.
-    const paramSchema = userValidator.getBaseSchema()
+    const paramSchema = userValidator.base()
     const { id } = userValidator.validate(paramSchema, req.params)
 
     //Query data process.

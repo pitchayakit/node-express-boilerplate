@@ -49,6 +49,6 @@ npx sequelize-cli db:seed:all
 After seeding you will get ramdom users with email and password is "test" which can use to be credentials to login.
 
 ### Download Example
-[Postman](https://github.com/pitchayakit/node-express-boilerplate/tree/master/postman)
+[Postman](https://github.com/pitchayakit/node-express-boilerplate/blob/master/postman/Bolerplate.postman_collection.json)
 
 Please replace the placeholders with the actual content relevant to your project.

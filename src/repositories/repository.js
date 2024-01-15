@@ -107,7 +107,7 @@ class Repository {
     }
 
     async bulkUpdate(data, option = {}) {
-        const transaction = option.transaction || null,
+        const transaction = option.transaction || null
         const query = option.query || {}
 
         data = _.omit(data, ["id"]);

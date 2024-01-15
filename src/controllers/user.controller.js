@@ -14,14 +14,14 @@ export const index = async (req, res) => {
     //Get schema validation.
     const baseSchema = userValidator.base()
     const paginationSchema = userValidator.pagination()
-    const sortSchema = userValidator.order()
+    const orderSchema = userValidator.order()
 
     //Validation process
-    const validatedData = userValidator.validate([baseSchema, paginationSchema, sortSchema], req.query)
+    const validatedQuery = userValidator.validate([baseSchema, paginationSchema, orderSchema], req.query)
 
     //Query data process.
     const users = await userService.findAllWithPagination({
-        query : validatedData
+        query : validatedQuery
     })
 
     return res.status(OK).json(users)
@@ -41,10 +41,10 @@ export const show = async (req, res) => {
 export const create = async (req, res) => {
     //Validation process.
     const schema = userValidator.create()
-    const validatedDate = userValidator.validate(schema, req.body)
+    const validatedBody = userValidator.validate(schema, req.body)
 
     //Query data process.
-    const user = await userService.create(validatedDate)
+    const user = await userService.create(validatedBody)
 
     return res.status(OK).json(user)
 }
@@ -56,10 +56,10 @@ export const update = async (req, res) => {
 
     //Validation body process.
     const updateSchema = userValidator.patch()
-    const validatedDate = userValidator.validate(updateSchema, req.body)
+    const validatedBody = userValidator.validate(updateSchema, req.body)
 
     //Query data process.
-    const user = await userService.update(id, validatedDate)
+    const user = await userService.update(id, validatedBody)
 
     return res.status(OK).json(user)
 }

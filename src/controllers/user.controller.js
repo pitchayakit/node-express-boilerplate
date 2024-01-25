@@ -20,9 +20,7 @@ export const index = async (req, res) => {
     const validatedQuery = userValidator.validate([baseSchema, paginationSchema, orderSchema], req.query)
 
     //Query data process.
-    const users = await userService.findAllWithPagination({
-        query : validatedQuery
-    })
+    const users = await userService.findAllWithPagination(validatedQuery)
 
     return res.status(OK).json(users)
 }

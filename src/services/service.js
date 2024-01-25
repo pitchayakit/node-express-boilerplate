@@ -17,8 +17,10 @@ class Service {
         }
     }
 
-    async findAll(option = {}) {
-        const data = await this.repository.findAll(option)
+    async findAll(query = {}) {
+        const data = await this.repository.findAll({
+            query: query
+        })
 
         if (!data) {
             throw httpError(INTERNAL_SERVER_ERROR)
@@ -29,8 +31,10 @@ class Service {
         }
     }
 
-    async findAllWithPagination(option = {}) {
-        const data = await this.repository.findAllWithPagination(option)
+    async findAllWithPagination(query = {}) {
+        const data = await this.repository.findAllWithPagination({
+            query: query
+        })
 
         if (!data) {
             throw httpError(INTERNAL_SERVER_ERROR)
@@ -39,8 +43,10 @@ class Service {
         return data
     }
 
-    async findOne(option) {
-        const data = await this.repository.findOne(option)
+    async findOne(query = {}) {
+        const data = await this.repository.findOne({
+            query: query
+        })
 
         if (!data) {
             throw httpError(NOT_FOUND)
@@ -103,8 +109,10 @@ class Service {
         }
     }
 
-    async export(option) {
-        const data = await this.repository.findAllWithPagination(option)
+    async export(query = {}) {
+        const data = await this.repository.findAllWithPagination({
+            query: query
+        })
 
         const { total } = data
         const maxRow = 100000
@@ -113,7 +121,7 @@ class Service {
             throw httpError(BAD_REQUEST, `Your export data is excess. The data can't more then ${maxRow}.`)
         }
 
-        let query = option.query || {}
+        query = option.query || {}
 
         //Export process
         const chunkSize = 10000

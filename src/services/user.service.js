@@ -19,17 +19,19 @@ class UserService extends Service {
         const user = await this.repository.findOne({
             query: {
                 email: email,
-            }
+            },
         });
 
         const isCorrect = bcrypt.compareSync(password, user.password);
 
-        if(!isCorrect) {
+        if (!isCorrect) {
             throw httpError(FORBIDDEN, "Username or password is incorrect.");
         }
 
         // create a jwt token
-        const token = jwt.sign(_.pick(user, ["id", "email"]), jwtKey, { expiresIn: "1h" });
+        const token = jwt.sign(_.pick(user, ["id", "email"]), jwtKey, {
+            expiresIn: "1h",
+        });
 
         return { token: token };
     }

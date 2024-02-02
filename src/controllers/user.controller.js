@@ -1,4 +1,3 @@
-
 import { OK } from "../enum/httpCode.js";
 import UserService from "../services/user.service.js";
 import UserValidator from "../validators/user.validator.js";
@@ -19,7 +18,7 @@ export const index = async (req, res) => {
     //Validation process
     const validatedQuery = userValidator.validate(
         [baseSchema, paginationSchema, orderSchema],
-        req.query
+        req.query,
     );
 
     //Query data process.
@@ -82,5 +81,3 @@ export const login = async (req, res) => {
 
     return res.status(OK).json(result);
 };
-
-

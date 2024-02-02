@@ -13,13 +13,13 @@ class Service {
         }
 
         return {
-            data: data
+            data: data,
         };
     }
 
     async findAll(query = {}) {
         const data = await this.repository.findAll({
-            query: query
+            query: query,
         });
 
         if (!data) {
@@ -27,13 +27,13 @@ class Service {
         }
 
         return {
-            data: data
+            data: data,
         };
     }
 
     async findAllWithPagination(query = {}) {
         const data = await this.repository.findAllWithPagination({
-            query: query
+            query: query,
         });
 
         if (!data) {
@@ -45,7 +45,7 @@ class Service {
 
     async findOne(query = {}) {
         const data = await this.repository.findOne({
-            query: query
+            query: query,
         });
 
         if (!data) {
@@ -53,7 +53,7 @@ class Service {
         }
 
         return {
-            data: data
+            data: data,
         };
     }
 
@@ -65,12 +65,11 @@ class Service {
         }
 
         return {
-            data: data
+            data: data,
         };
     }
 
     async update(id, body, option = {}) {
-
         const resource = await this.repository.update(id, body, option);
 
         if (!resource) {
@@ -78,12 +77,11 @@ class Service {
         }
 
         return {
-            data: resource
+            data: resource,
         };
     }
 
     async bulkUpdate(body, option = {}) {
-
         const resource = await this.repository.bulkUpdate(body, option);
 
         if (!resource) {
@@ -91,7 +89,7 @@ class Service {
         }
 
         return {
-            data: resource
+            data: resource,
         };
     }
 
@@ -105,7 +103,7 @@ class Service {
         await this.repository.destroy(id);
 
         return {
-            data: `${id} is deleted successfully.`
+            data: `${id} is deleted successfully.`,
         };
     }
 }

@@ -1,5 +1,12 @@
 import express from "express";
-import { create, destroy, index, show, update, login } from "../../controllers/user.controller.js";
+import {
+    create,
+    destroy,
+    index,
+    show,
+    update,
+    login,
+} from "../../controllers/user.controller.js";
 import { applyAsyncHandlerToRouter } from "../../utils/asyncHandler.js";
 import authMiddleware from "../../middleware/auth.js"; // Import the middleware
 const router = express.Router();
@@ -13,6 +20,5 @@ router.get("/:id", show);
 router.post("/", create);
 router.patch("/:id", update);
 router.delete("/:id", destroy);
-
 
 export default applyAsyncHandlerToRouter(router);

@@ -15,7 +15,7 @@ class Repository {
         const query = option.query || {};
 
         const resources = await this.model.findAll({
-            where: this.getFilter(query)
+            where: this.getFilter(query),
         });
 
         return JSON.parse(JSON.stringify(resources));
@@ -29,11 +29,9 @@ class Repository {
 
         const { count, rows } = await this.model.findAndCountAll({
             where: this.getFilter(query),
-            order: [
-                [orderBy, order]
-            ],
+            order: [[orderBy, order]],
             offset: offset,
-            limit: limit
+            limit: limit,
         });
 
         return {
@@ -41,7 +39,7 @@ class Repository {
             limit: limit,
             page: page,
             pages: Math.ceil(count / limit),
-            total: count
+            total: count,
         };
     }
 
@@ -49,7 +47,7 @@ class Repository {
         const query = option.query || {};
 
         const resource = await this.model.findOne({
-            where: this.getFilter(query)
+            where: this.getFilter(query),
         });
 
         return JSON.parse(JSON.stringify(resource));
@@ -64,12 +62,9 @@ class Repository {
     async create(data, option = {}) {
         const transaction = option.transaction || null;
 
-        const resource = await this.model.create(
-            data,
-            {
-                transaction: transaction
-            }
-        );
+        const resource = await this.model.create(data, {
+            transaction: transaction,
+        });
 
         return JSON.parse(JSON.stringify(resource));
     }
@@ -77,12 +72,9 @@ class Repository {
     async bulkCreate(data, option = {}) {
         const transaction = option.transaction || null;
 
-        const rows = await this.model.bulkCreate(
-            data,
-            {
-                transaction: transaction
-            }
-        );
+        const rows = await this.model.bulkCreate(data, {
+            transaction: transaction,
+        });
 
         return JSON.parse(JSON.stringify(rows));
     }
@@ -112,17 +104,13 @@ class Repository {
 
         data = _.omit(data, ["id"]);
 
-        const [count] = await this.model.update(
-            data,
-            {
-                where: this.getFilter(query),
-                transaction: transaction
-            }
-        );
+        const [count] = await this.model.update(data, {
+            where: this.getFilter(query),
+            transaction: transaction,
+        });
 
         return count;
     }
-
 
     async destroy(id, option = {}) {
         const transaction = option.transaction || null;
@@ -135,9 +123,9 @@ class Repository {
 
         return await this.model.destroy({
             where: {
-                id: id
+                id: id,
             },
-            transaction: transaction
+            transaction: transaction,
         });
     }
 }

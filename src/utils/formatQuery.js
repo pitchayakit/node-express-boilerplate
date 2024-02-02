@@ -13,7 +13,7 @@ const order = (query = {}) => {
 
     return {
         order: order,
-        orderBy: orderBy
+        orderBy: orderBy,
     };
 };
 

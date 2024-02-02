@@ -22,18 +22,21 @@ class Validation {
                     return Joi.boolean();
                 // Add more cases as needed
                 default:
-                    throw httpError(INTERNAL_SERVER_ERROR, `Unsupported type for ${key}`);
+                    throw httpError(
+                        INTERNAL_SERVER_ERROR,
+                        `Unsupported type for ${key}`,
+                    );
             }
         });
-        
+
         return Joi.object(schema);
     }
 
     baseSchemaWithPaginationAndOrder() {
         const baseSchema = this.base();
         const paginationSchema = this.pagination();
-        const orderSchema  = this.order();
-        
+        const orderSchema = this.order();
+
         return baseSchema.concat(paginationSchema).concat(orderSchema);
     }
 
@@ -47,40 +50,46 @@ class Validation {
     order() {
         return Joi.object({
             order_by: Joi.string().default("id"),
-            order: Joi.string().valid("ASC", "DESC").default("ASC")
+            order: Joi.string().valid("ASC", "DESC").default("ASC"),
         });
     }
 
     create() {
         const schema = this.base();
-        
+
         // Add any additional validation rules for the create operation here.
-        return schema.keys({ 
-            first_name: schema.extract("first_name").required() ,
-            last_name: schema.extract("last_name").required() ,
-            email: schema.extract("email").required() ,
-            password: schema.extract("password").required() 
+        return schema.keys({
+            first_name: schema.extract("first_name").required(),
+            last_name: schema.extract("last_name").required(),
+            email: schema.extract("email").required(),
+            password: schema.extract("password").required(),
         });
     }
 
     patch() {
         const schema = this.base();
-        
+
         // Exclude the primary key from the schema
         return schema.fork(["id"], (schema) => schema.strip());
     }
 
     validate(schema, data) {
-
         if (Array.isArray(schema)) {
             // Merge all objects in the array into one object
-            schema = schema.reduce((combined, currentSchema) => combined.concat(currentSchema), Joi.object());
+            schema = schema.reduce(
+                (combined, currentSchema) => combined.concat(currentSchema),
+                Joi.object(),
+            );
         }
-       
+
         const { error, value } = schema.validate(data);
 
-        if(error) {
-            throw httpError(BAD_REQUEST, "Validation error", _.pluck(error.details, "message"));
+        if (error) {
+            throw httpError(
+                BAD_REQUEST,
+                "Validation error",
+                _.pluck(error.details, "message"),
+            );
         }
 
         return value;

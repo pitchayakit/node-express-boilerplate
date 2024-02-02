@@ -1,4 +1,3 @@
-
 import models from "../models/index.js";
 import Validator from "./validator.js";
 

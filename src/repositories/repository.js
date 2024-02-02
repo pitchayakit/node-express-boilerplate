@@ -1,28 +1,28 @@
-import _ from "underscore"
-import formatQuery from "../utils/formatQuery.js"
+import _ from "underscore";
+import formatQuery from "../utils/formatQuery.js";
 class Repository {
     constructor(model) {
-        this.model = model
+        this.model = model;
     }
 
     getFilter(query = {}) {
-        const allKeys = _.allKeys(this.model.rawAttributes)
+        const allKeys = _.allKeys(this.model.rawAttributes);
 
-        return _.pick(query, allKeys)
-    };
+        return _.pick(query, allKeys);
+    }
 
     async findAll(option = {}) {
-        const query = option.query || {}
+        const query = option.query || {};
 
         const resources = await this.model.findAll({
             where: this.getFilter(query)
-        })
+        });
 
-        return JSON.parse(JSON.stringify(resources))
+        return JSON.parse(JSON.stringify(resources));
     }
 
     async findAllWithPagination(option = {}) {
-        const query = option.query || {}
+        const query = option.query || {};
 
         const { limit, offset, page } = formatQuery.pagination(query);
         const { order, orderBy } = formatQuery.order(query);
@@ -34,7 +34,7 @@ class Repository {
             ],
             offset: offset,
             limit: limit
-        })
+        });
 
         return {
             data: JSON.parse(JSON.stringify(rows)),
@@ -42,23 +42,23 @@ class Repository {
             page: page,
             pages: Math.ceil(count / limit),
             total: count
-        }
+        };
     }
 
     async findOne(option = {}) {
-        const query = option.query || {}
+        const query = option.query || {};
 
         const resource = await this.model.findOne({
             where: this.getFilter(query)
-        })
+        });
 
-        return JSON.parse(JSON.stringify(resource))
+        return JSON.parse(JSON.stringify(resource));
     }
 
     async findByPk(id, option = {}) {
-        const resource = await this.model.findByPk(id, option)
+        const resource = await this.model.findByPk(id, option);
 
-        return JSON.parse(JSON.stringify(resource))
+        return JSON.parse(JSON.stringify(resource));
     }
 
     async create(data, option = {}) {
@@ -71,7 +71,7 @@ class Repository {
             }
         );
 
-        return JSON.parse(JSON.stringify(resource))
+        return JSON.parse(JSON.stringify(resource));
     }
 
     async bulkCreate(data, option = {}) {
@@ -82,33 +82,33 @@ class Repository {
             {
                 transaction: transaction
             }
-        )
+        );
 
         return JSON.parse(JSON.stringify(rows));
     }
 
     async update(id, body, option = {}) {
-        const transaction = option.transaction || null
+        const transaction = option.transaction || null;
 
-        let resource = await this.model.findByPk(id)
+        let resource = await this.model.findByPk(id);
 
         if (!resource) {
-            return false
+            return false;
         }
 
         body = _.omit(body, ["id"]);
 
         //Set date here in order to get the previous data value.
-        resource.set(body)
+        resource.set(body);
 
-        await resource.save({ transaction: transaction })
+        await resource.save({ transaction: transaction });
 
         return JSON.parse(JSON.stringify(resource));
     }
 
     async bulkUpdate(data, option = {}) {
-        const transaction = option.transaction || null
-        const query = option.query || {}
+        const transaction = option.transaction || null;
+        const query = option.query || {};
 
         data = _.omit(data, ["id"]);
 
@@ -118,19 +118,19 @@ class Repository {
                 where: this.getFilter(query),
                 transaction: transaction
             }
-        )
+        );
 
-        return count
+        return count;
     }
 
 
     async destroy(id, option = {}) {
         const transaction = option.transaction || null;
 
-        const resource = await this.model.findByPk(id)
+        const resource = await this.model.findByPk(id);
 
         if (!resource) {
-            return false
+            return false;
         }
 
         return await this.model.destroy({
@@ -138,40 +138,8 @@ class Repository {
                 id: id
             },
             transaction: transaction
-        })
-    }
-
-    globalSearch(key, columns) {
-        return columns.map(column => {
-            return {
-                [column]: {
-                    [Op.substring]: key,
-                },
-            }
-        })
-    }
-
-    getWhereDateBetween = (column, fromDate, toDate) => {
-        let whereAttributes = []
-
-        if (fromDate) {
-            whereAttributes.push({
-                [column]: {
-                    [Op.gte]: dateTime.startOf(fromDate, "day"),
-                }
-            })
-        }
-
-        if (toDate) {
-            whereAttributes.push({
-                [column]: {
-                    [Op.lte]: dateTime.endOf(toDate, "day"),
-                }
-            })
-        }
-
-        return whereAttributes
+        });
     }
 }
 
-export default Repository
+export default Repository;

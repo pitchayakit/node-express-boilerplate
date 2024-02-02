@@ -9,7 +9,8 @@
     "start": "node index.js",
     "serve": "node .",
     "serve:dev": "nodemon",
-    "db:migrate": "sequelize db:migrate"
+    "db:migrate": "sequelize db:migrate",
+    "lint": "eslint --fix --ext .js,.jsx ."
   },
   "author": "",
   "license": "ISC",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
     "babel-register": "^6.26.0",
+    "eslint": "^8.56.0",
     "nodemon": "^3.0.1",
     "sequelize-cli": "^6.6.2"
   }

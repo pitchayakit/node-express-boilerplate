@@ -13,10 +13,10 @@ export default function (status = INTERNAL_SERVER_ERROR, message = undefined, er
     }
     
     // Create new error with error stack trace
-    let err = new Error(message)
-    err.status = status
-    err.code = status
-    err.errors = errors
+    let err = new Error(message);
+    err.status = status;
+    err.code = status;
+    err.errors = errors;
 
-    return err
+    return err;
 }

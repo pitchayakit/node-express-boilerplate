@@ -5,12 +5,12 @@ import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../enum/httpCode.js";
 
 class Validation {
     constructor(model) {
-        this.model = model
+        this.model = model;
     }
 
     base() {
-        const schema = _.mapObject(this.model.rawAttributes, (val, rawKey) => {
-            const key = val.type.key
+        const schema = _.mapObject(this.model.rawAttributes, (val) => {
+            const key = val.type.key;
             switch (key) {
                 case "STRING":
                     return Joi.string();
@@ -22,9 +22,9 @@ class Validation {
                     return Joi.boolean();
                 // Add more cases as needed
                 default:
-                    throw httpError(INTERNAL_SERVER_ERROR, `Unsupported type for ${key}`)
+                    throw httpError(INTERNAL_SERVER_ERROR, `Unsupported type for ${key}`);
             }
-        })
+        });
         
         return Joi.object(schema);
     }
@@ -41,14 +41,14 @@ class Validation {
         return Joi.object({
             limit: Joi.number().integer().min(1).default(10),
             page: Joi.number().integer().min(1).default(1),
-        })
+        });
     }
 
     order() {
         return Joi.object({
-            order_by: Joi.string().default('id'),
-            order: Joi.string().valid('ASC', 'DESC').default('ASC')
-        })
+            order_by: Joi.string().default("id"),
+            order: Joi.string().valid("ASC", "DESC").default("ASC")
+        });
     }
 
     create() {
@@ -56,10 +56,10 @@ class Validation {
         
         // Add any additional validation rules for the create operation here.
         return schema.keys({ 
-            first_name: schema.extract('first_name').required() ,
-            last_name: schema.extract('last_name').required() ,
-            email: schema.extract('email').required() ,
-            password: schema.extract('password').required() 
+            first_name: schema.extract("first_name").required() ,
+            last_name: schema.extract("last_name").required() ,
+            email: schema.extract("email").required() ,
+            password: schema.extract("password").required() 
         });
     }
 
@@ -67,7 +67,7 @@ class Validation {
         const schema = this.base();
         
         // Exclude the primary key from the schema
-        return schema.fork(['id'], (schema) => schema.strip());
+        return schema.fork(["id"], (schema) => schema.strip());
     }
 
     validate(schema, data) {
@@ -80,11 +80,11 @@ class Validation {
         const { error, value } = schema.validate(data);
 
         if(error) {
-            throw httpError(BAD_REQUEST, 'Validation error', _.pluck(error.details, "message"))
+            throw httpError(BAD_REQUEST, "Validation error", _.pluck(error.details, "message"));
         }
 
-        return value
+        return value;
     }
 }
 
-export default Validation
+export default Validation;

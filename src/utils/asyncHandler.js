@@ -16,4 +16,4 @@ export const applyAsyncHandlerToRouter = (router) => {
         }
     }
     return router;
-}
+};

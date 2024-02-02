@@ -1,8 +1,8 @@
 
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 // user.js
 const User = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
+    const User = sequelize.define("user", {
         // Model attributes are defined here
         first_name: {
             type: DataTypes.STRING,
@@ -19,7 +19,7 @@ const User = (sequelize, DataTypes) => {
         }
     },{
         // This is the option that allows you to specify the table name
-        tableName: 'users',
+        tableName: "users",
         underscored: true,
         hooks: {
             beforeCreate: async (user) => {
@@ -30,10 +30,6 @@ const User = (sequelize, DataTypes) => {
             }
         }
     });
-
-    User.associate = models => {
-
-    };
 
     return User;
 };
